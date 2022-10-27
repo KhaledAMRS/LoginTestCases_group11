@@ -97,6 +97,19 @@ public class loginTestCases {
     driver.findElement(By.className("radius")).click();
 
 
+        //5- compare actual result with expected result using TestNG assertions
+
+        //5.1- url doesn't change    https://the-internet.herokuapp.com/login
+
+        //5.2- error message contain  "username is invalid"
+
+        //5.3- error message background color is Red      getCssValue()
+
+        //How to convert RGBA to Hex
+
+        //5.4- logout button (is not present in DOM Page)
+
+
     }
 
     @AfterMethod
