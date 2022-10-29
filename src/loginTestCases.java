@@ -1,5 +1,6 @@
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
@@ -97,19 +98,29 @@ public class loginTestCases {
     driver.findElement(By.className("radius")).click();
 
 
-        //5- compare actual result with expected result using TestNG assertions
+//5- Assertions
 
-        //5.1- url doesn't change    https://the-internet.herokuapp.com/login
+        SoftAssert soft = new SoftAssert();
 
-        //5.2- error message contain  "username is invalid"
+        //1- url doesn't change "https://the-internet.herokuapp.com/login"
+        String actualUrl = driver.getCurrentUrl();
+        soft.assertEquals(actualUrl,"https://the-internet.herokuapp.com/login");
 
-        //5.3- error message background color is Red      getCssValue()
+        //2- error message contains "Your username is invalid"
+        String actualMsg = driver.findElement(By.id("flash")).getText();
+        soft.assertTrue(actualMsg.toLowerCase().contains("your username is invalid"));
 
-        //How to convert RGBA to Hex
+        //3- background error message is red   RGBA
+        String actualColorRGBA = driver.findElement(By.id("flash")).getCssValue("background-color");
+//        soft.assertEquals(actualColorRGBA, "RGBA(198, 15, 19, 1)");
+        String actualColorHex = Color.fromString(actualColorRGBA).asHex();
+        soft.assertEquals(actualColorHex,"#c60f13");
 
-        //5.4- logout button (is not present in DOM Page)
+        //4- logout button is not exist on DOM Page
+        boolean actualStatus = driver.findElements(By.cssSelector("a[class=\"button secondary radius\"]")).isEmpty();
+        soft.assertTrue(actualStatus);
 
-
+        soft.assertAll();
     }
 
     @AfterMethod
